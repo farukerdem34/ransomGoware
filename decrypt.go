@@ -13,11 +13,12 @@ const DEBUG bool = false
 
 var file_paths []string
 
-const ROOT string = "/home/kali/Documents/GoDemo2/test"
+const ROOT string = "/path/to/root"
+
+const isFile bool = false
 
 func main() {
-	key := readFile("../key.txt")
-
+	key := whatTheKey(isFile)
 	if DEBUG {
 		fmt.Println("Key: ", []byte(key))
 	}
@@ -40,6 +41,16 @@ func main() {
 		}
 	}
 
+}
+
+func whatTheKey(isFile bool) []byte {
+	var key []byte
+	if isFile {
+		key = readFile("key.txt")
+	} else {
+		key = []byte("YOUR-32-BIT-KEY-STRING")
+	}
+	return key
 }
 
 func readFile(file_path string) []byte {
