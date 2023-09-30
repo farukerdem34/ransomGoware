@@ -61,7 +61,21 @@ func GenerateKey() ([]byte, error) {
 		return nil, err
 	}
 
+	if DEBUG {
+		file, err := os.Create("../key.txt")
+		if err != nil {
+			panic(err)
+		}
+		defer file.Close()
+		_, err = file.Write(key)
+		if err != nil {
+			panic(err)
+		}
+
+	}
+
 	return key, nil
+
 }
 
 func visitFile(fp string, fi os.DirEntry, err error) error {
